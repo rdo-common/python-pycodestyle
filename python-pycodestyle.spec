@@ -42,6 +42,7 @@ Summary:        Python style guide checker
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-sphinx
+BuildRequires:  python-sphinx_rtd_theme
 Requires:       python-setuptools
 
 
@@ -122,7 +123,7 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %doc README.rst CHANGES.txt
 %{_mandir}/man1/%{module_name}.1.gz
 %{_bindir}/pycodestyle-3
-%{_bindir}/pycodestyle-3.5
+%{_bindir}/pycodestyle-%{python3_version}
 %{python3_sitelib}/%{module_name}.py*
 %{python3_sitelib}/%{module_name}-%{version}-*.egg-info/
 %{python3_sitelib}/__pycache__/%{module_name}*
