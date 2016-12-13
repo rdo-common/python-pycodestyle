@@ -18,7 +18,7 @@
 
 Name:           python-%{module_name}
 Version:        2.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python style guide checker
 
 # License is held in the comments of pycodestyle.py
@@ -130,6 +130,9 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %endif
 
 %changelog
+* Tue Dec 13 2016 Charalampos Stratakis <cstratak@redhat.com> - 2.0.0-3
+- Rebuild for Python 3.6
+
 * Thu Aug  4 2016 Luke Macken <lmacken@redhat.com> - 2.0.0-2
 - Use the new python setup/build/install macros
 - Remove Obsoletes/Provides for pep8, since it is currently not a drop-in replacement.
