@@ -1,24 +1,8 @@
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{!?__python2:        %global __python2 /usr/bin/python2}
-%{!?python2_sitelib:  %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-%endif
-
-%global with_python3 1
-
-%if 0%{?fedora}
-%{!?python3_pkgversion: %global python3_pkgversion 3}
-%else
-%{!?python3_pkgversion: %global python3_pkgversion 34}
-%endif
-
-%{!?python3_version: %global python3_version %(%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])")}
-
 %global module_name pycodestyle
 
 Name:           python-%{module_name}
 Version:        2.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Python style guide checker
 
 # License is held in the comments of pycodestyle.py
@@ -53,14 +37,14 @@ its output is parseable, making it easy to jump to an error location in your
 editor.
 
 
-%if %{with python3}
-%package -n python3-pycodestyle
+%package -n python%{python3_pkgversion}-pycodestyle
 Summary:    Python style guide checker
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{module_name}}
 
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
-BuildRequires:  python%{python3_pkgversion}-sphinx
+#Docs are actually built with python2 sphinx
+#BuildRequires:  python%{python3_pkgversion}-sphinx
 
 
 Requires:  python%{python3_pkgversion}-setuptools
@@ -71,8 +55,6 @@ its output is parseable, making it easy to jump to an error location in your
 editor.
 
 This is a version for Python %{python3_pkgversion}.
-
-%endif
 
 
 %prep
@@ -110,7 +92,6 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 
 
 %files -n python2-%{module_name}
-%defattr(-,root,root,-)
 %doc CHANGES.txt README.rst
 %{_bindir}/pycodestyle
 %{_bindir}/pycodestyle-2
@@ -118,8 +99,7 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %{python2_sitelib}/%{module_name}.py*
 %{python2_sitelib}/%{module_name}-%{version}-*.egg-info
 
-%if %{with python3}
-%files -n python3-pycodestyle
+%files -n python%{python3_pkgversion}-pycodestyle
 %doc README.rst CHANGES.txt
 %{_mandir}/man1/%{module_name}.1.gz
 %{_bindir}/pycodestyle-3
@@ -127,9 +107,12 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %{python3_sitelib}/%{module_name}.py*
 %{python3_sitelib}/%{module_name}-%{version}-*.egg-info/
 %{python3_sitelib}/__pycache__/%{module_name}*
-%endif
 
 %changelog
+* Fri Mar 10 2017 Orion Poplawski <orion@cora.nwra.com> - 2.0.0-5
+- Fix python3 builds for EPEL
+- Cleanup spec
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
