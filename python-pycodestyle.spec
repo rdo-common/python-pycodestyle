@@ -2,7 +2,7 @@
 
 Name:           python-%{module_name}
 Version:        2.0.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Python style guide checker
 
 # License is held in the comments of pycodestyle.py
@@ -109,6 +109,9 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %{python3_sitelib}/__pycache__/%{module_name}*
 
 %changelog
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Fri Mar 10 2017 Orion Poplawski <orion@cora.nwra.com> - 2.0.0-5
 - Fix python3 builds for EPEL
 - Cleanup spec
