@@ -1,8 +1,8 @@
 %global module_name pycodestyle
 
 Name:           python-%{module_name}
-Version:        2.0.0
-Release:        6%{?dist}
+Version:        2.3.1
+Release:        1%{?dist}
 Summary:        Python style guide checker
 
 # License is held in the comments of pycodestyle.py
@@ -24,10 +24,10 @@ Summary:        Python style guide checker
 %{?python_provide:%python_provide python2-%{module_name}}
 
 BuildRequires:  python2-devel
-BuildRequires:  python-setuptools
-BuildRequires:  python-sphinx
-BuildRequires:  python-sphinx_rtd_theme
-Requires:       python-setuptools
+BuildRequires:  python2-setuptools
+BuildRequires:  python2-sphinx
+BuildRequires:  python2-sphinx_rtd_theme
+Requires:       python2-setuptools
 
 
 %description -n python2-%{module_name}
@@ -109,6 +109,10 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %{python3_sitelib}/__pycache__/%{module_name}*
 
 %changelog
+* Thu Aug 24 2017 Lumír Balhar <lbalhar@redhat.com> 2.3.1-1
+- New upstream version 2.3.1
+- Use 'python2' instead of just 'python' in the names of dependencies
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.0.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
