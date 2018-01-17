@@ -1,5 +1,9 @@
 %global module_name pycodestyle
 
+%if 0%{?fedora}
+%global with_python3 1
+%endif
+
 Name:           python-%{module_name}
 Version:        2.0.0
 Release:        5%{?dist}
@@ -37,6 +41,7 @@ its output is parseable, making it easy to jump to an error location in your
 editor.
 
 
+%if 0%{?with_python3}
 %package -n python%{python3_pkgversion}-pycodestyle
 Summary:    Python style guide checker
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{module_name}}
@@ -55,6 +60,7 @@ its output is parseable, making it easy to jump to an error location in your
 editor.
 
 This is a version for Python %{python3_pkgversion}.
+%endif
 
 
 %prep
@@ -66,15 +72,19 @@ sed --in-place "s:#!\s*/usr.*::" pycodestyle.py
 
 %build
 %py2_build
+%if 0%{?with_python3}
 %py3_build
+%endif
 
 make -C docs man
 
 
 %install
+%if 0%{?with_python3}
 %py3_install
 mv %{buildroot}%{_bindir}/pycodestyle %{buildroot}%{_bindir}/pycodestyle-%{python3_version}
 ln -s ./pycodestyle-%{python3_version} %{buildroot}%{_bindir}/pycodestyle-3
+%endif
 
 %py2_install
 mv %{buildroot}%{_bindir}/pycodestyle %{buildroot}%{_bindir}/pycodestyle-%{python2_version}
@@ -87,8 +97,10 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %check
 %{__python2} pycodestyle.py --testsuite testsuite
 %{__python2} pycodestyle.py --doctest
+%if 0%{?with_python3}
 %{__python3} pycodestyle.py --testsuite testsuite
 %{__python3} pycodestyle.py --doctest
+%endif
 
 
 %files -n python2-%{module_name}
@@ -98,7 +110,11 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %{_bindir}/pycodestyle-2.7
 %{python2_sitelib}/%{module_name}.py*
 %{python2_sitelib}/%{module_name}-%{version}-*.egg-info
+%if !0%{?with_python3}
+%{_mandir}/man1/%{module_name}.1.gz
+%endif
 
+%if 0%{?with_python3}
 %files -n python%{python3_pkgversion}-pycodestyle
 %doc README.rst CHANGES.txt
 %{_mandir}/man1/%{module_name}.1.gz
@@ -107,6 +123,7 @@ install -D docs/_build/man/%{module_name}.1 %{buildroot}%{_mandir}/man1/%{module
 %{python3_sitelib}/%{module_name}.py*
 %{python3_sitelib}/%{module_name}-%{version}-*.egg-info/
 %{python3_sitelib}/__pycache__/%{module_name}*
+%endif
 
 %changelog
 * Fri Mar 10 2017 Orion Poplawski <orion@cora.nwra.com> - 2.0.0-5
